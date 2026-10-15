@@ -296,15 +296,30 @@ categoryButtons.forEach(function(button) {
   });
 });
 
+
 const helpfulButtons = document.querySelectorAll(".helpful-button");
 
-helpfulButtons.forEach(function(button) {
-  button.addEventListener("click", function() {
-    const countElement = button.querySelector(".helpful-count");
-    let count = Number(countElement.textContent);
+helpfulButtons.forEach(function(button, index) {
+  const countElement = button.querySelector(".helpful-count");
+  const storageKey = "manexia-helpful-" + index;
 
+  // 保存されている投票数を読み込む
+  const savedCount = localStorage.getItem(storageKey);
+
+  if (savedCount !== null) {
+    countElement.textContent = savedCount;
+    button.disabled = true;
+    button.firstChild.textContent = "👍 投票ありがとう！ ";
+  }
+
+  button.addEventListener("click", function() {
+    let count = Number(countElement.textContent);
     count++;
+
     countElement.textContent = count;
+
+    // 投票数をブラウザに保存する
+    localStorage.setItem(storageKey, count);
 
     button.disabled = true;
     button.firstChild.textContent = "👍 投票ありがとう！ ";

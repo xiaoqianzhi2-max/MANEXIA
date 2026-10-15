@@ -98,6 +98,7 @@
       color: #536359;
     }
 
+    
     @media (max-width: 480px) {
       .search {
         flex-direction: column;
@@ -107,6 +108,23 @@
         font-size: 29px;
       }
     }
+
+    .helpful-button {
+      margin-top: 12px;
+      padding: 10px 16px;
+      border: 1px solid #b8d7c2;
+      border-radius: 8px;
+      background: #e0f2e5;
+      color: #176b4d;
+      cursor: pointer;
+    }
+
+    .helpful-button:hover {
+      background: #cce8d5;
+    }
+
+  </style>
+
   </style>
 </head>
 
@@ -149,13 +167,19 @@
   </details>
 </div>
     
+
 <div class="card" data-category="貯金">
   <details>
     <summary>貯金って何？</summary>
     <p>貯金とは、将来必要になるときのために、お金を使わずに残しておくことだよ。</p>
     <p><strong>例えば：</strong>毎月のお小遣いから500円を残しておけば、少しずつ貯金が増えていくよ。</p>
+
+    <button class="helpful-button" type="button">
+      👍 役に立った <span class="helpful-count">0</span>
+    </button>
   </details>
 </div>
+
 
 
     
@@ -253,6 +277,22 @@ categoryButtons.forEach(function(button) {
     filterCards();
   });
 });
+
+const helpfulButtons = document.querySelectorAll(".helpful-button");
+
+helpfulButtons.forEach(function(button) {
+  button.addEventListener("click", function() {
+    const countElement = button.querySelector(".helpful-count");
+    let count = Number(countElement.textContent);
+
+    count++;
+    countElement.textContent = count;
+
+    button.disabled = true;
+    button.firstChild.textContent = "👍 投票ありがとう！ ";
+  });
+});
+
 </script>
 
 </body>

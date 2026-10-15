@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MANEXIA｜お金の疑問を解決</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #f4f8f5;
+      color: #26372e;
+    }
+
+    header {
+      background: #176b4d;
+      color: white;
+      padding: 20px;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 55px 20px;
+      background: #e0f2e5;
+    }
+
+    h1 {
+      color: #176b4d;
+      font-size: 36px;
+    }
+
+    .hero p {
+      font-size: 17px;
+    }
+
+    .search {
+      margin: 25px auto 0;
+      max-width: 520px;
+      display: flex;
+      gap: 8px;
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid #bbb;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      background: #176b4d;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 18px;
+      cursor: pointer;
+    }
+
+    main {
+      max-width: 850px;
+      margin: 30px auto;
+      padding: 0 18px;
+    }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .category {
+      background: white;
+      color: #176b4d;
+      border: 1px solid #b8d7c2;
+      border-radius: 20px;
+      padding: 10px 16px;
+    }
+
+    .card {
+      background: white;
+      margin-top: 14px;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px #0000000d;
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 25px;
+      text-align: center;
+      background: #e7eee8;
+      color: #536359;
+    }
+
+    @media (max-width: 480px) {
+      .search {
+        flex-direction: column;
+      }
+
+      h1 {
+        font-size: 29px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>✦ MANEXIA</header>
+
+  <section class="hero">
+    <h1>お金の疑問、ここで解決。</h1>
+    <p>むずかしいお金の話を、やさしい言葉で。</p>
+
+    <form class="search" id="searchForm">
+      <input id="searchInput" type="search"
+        placeholder="例：貯金、税金、お金を稼ぐ">
+      <button type="submit">検索する</button>
+    </form>
+  </section>
+
+  <main>
+    <h2>📚 カテゴリーから探す</h2>
+
+    
+<div class="categories">
+  <button class="category" data-category="すべて" type="button">すべて</button>
+  <button class="category" data-category="貯金" type="button">貯金</button>
+  <button class="category" data-category="税金" type="button">税金</button>
+  <button class="category" data-category="投資" type="button">投資</button>
+  <button class="category" data-category="ビジネス" type="button">ビジネス</button>
+</div>
+
+
+    <h2>💡 よくあるお金の疑問</h2>
+
+
+<div class="card" data-category="投資">
+  <details>
+    <summary>投資って何？</summary>
+    <p>投資とは、将来お金が増えることなどを期待して、株式などの資産を購入することだよ。</p>
+    <p><strong>例えば：</strong>会社の株式を購入すると、その会社の成長によって株価が上がる可能性があるよ。</p>
+    <p><strong>注意点：</strong>投資には損をするリスクもあるので、必ずお金が増えるわけではないよ。</p>
+  </details>
+</div>
+    
+<div class="card" data-category="貯金">
+  <details>
+    <summary>貯金って何？</summary>
+    <p>貯金とは、将来必要になるときのために、お金を使わずに残しておくことだよ。</p>
+    <p><strong>例えば：</strong>毎月のお小遣いから500円を残しておけば、少しずつ貯金が増えていくよ。</p>
+  </details>
+</div>
+
+
+    
+<div class="card" data-category="税金">
+  <details>
+    <summary>税金って何のためにあるの？</summary>
+    <p>税金は、国や自治体が社会に必要なサービスを支えるために集めるお金だよ。</p>
+    <p><strong>例えば：</strong>学校、道路、消防、救急などを支えるために使われているよ。</p>
+  </details>
+</div>
+
+
+    
+<div class="card" data-category="ビジネス">
+  <details>
+    <summary>ビジネスって何？</summary>
+    <p>ビジネスとは、人や会社の困りごとを解決したり、欲しいものやサービスを提供したりして、その対価としてお金を受け取る活動だよ。</p>
+    <p><strong>例えば：</strong>動画編集が苦手な人の代わりに動画を編集して、料金を受け取ることもビジネスの一つだよ。</p>
+    <p><strong>大切なポイント：</strong>相手にとって役立つものを提供することが、ビジネスの基本なんだ。</p>
+  </details>
+</div>
+
+  </main>
+
+  <footer>
+    © 2026 MANEXIA｜お金を学ぶ、最初の一歩。
+  </footer>
+
+  
+<script>
+const searchInput = document.getElementById("searchInput");
+const cards = document.querySelectorAll(".card");
+const categoryButtons = document.querySelectorAll(".category");
+const searchForm = document.getElementById("searchForm");
+
+let selectedCategory = "すべて";
+
+function filterCards() {
+  const keyword = searchInput.value.trim().toLowerCase();
+  let count = 0;
+
+  cards.forEach(function(card) {
+    const text = card.textContent.toLowerCase();
+    const category = card.dataset.category;
+
+    const matchesKeyword = text.includes(keyword);
+    const matchesCategory =
+      selectedCategory === "すべて" ||
+      category === selectedCategory;
+
+    const matches = matchesKeyword && matchesCategory;
+
+    card.style.display = matches ? "block" : "none";
+
+    if (matches) {
+      count++;
+    }
+  });
+
+  let message = document.getElementById("searchMessage");
+
+  if (!message) {
+    message = document.createElement("p");
+    message.id = "searchMessage";
+
+    const main = document.querySelector("main");
+    main.insertBefore(message, main.children[1]);
+  }
+
+  if (keyword === "" && selectedCategory === "すべて") {
+    message.textContent = "";
+  } else {
+    message.textContent = count + "件の質問が見つかりました。";
+  }
+}
+
+searchForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+  filterCards();
+});
+
+searchInput.addEventListener("input", filterCards);
+
+categoryButtons.forEach(function(button) {
+  button.addEventListener("click", function() {
+    selectedCategory = button.dataset.category;
+
+    categoryButtons.forEach(function(item) {
+      const isSelected = item === button;
+
+      item.style.background = isSelected ? "#176b4d" : "white";
+      item.style.color = isSelected ? "white" : "#176b4d";
+    });
+
+    filterCards();
+  });
+});
+</script>
+
+</body>
+</html>
+
+

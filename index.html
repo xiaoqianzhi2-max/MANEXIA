@@ -122,8 +122,38 @@
     .helpful-button:hover {
       background: #cce8d5;
     }
+/* 回答欄を見やすく整える */
+.answer-area {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f4f8f5;
+  border: 1px solid #d7e6db;
+  border-radius: 10px;
+}
 
-  </style>
+.answer-area label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #176b4d;
+}
+
+.answer-area textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 90px;
+  margin-bottom: 10px;
+  padding: 12px;
+  border: 1px solid #b8d7c2;
+  border-radius: 8px;
+  font: inherit;
+  resize: vertical;
+}
+
+.answer-area p {
+  overflow-wrap: anywhere;
+}
 
   </style>
 </head>
@@ -284,8 +314,9 @@ function createQuestionCard(question) {
   const summary = document.createElement("summary");
   summary.textContent = question.title;
 
-  const answerArea = document.createElement("div");
-  const answerLabel = document.createElement("label");
+ const answerArea = document.createElement("div");
+answerArea.className = "answer-area";
+const answerLabel = document.createElement("label");
   answerLabel.textContent = "回答を入力してね";
 
   const answerInput = document.createElement("textarea");
@@ -499,6 +530,7 @@ helpfulButtons.forEach(function(button, index) {
 // ページを開いたときに保存済みの質問を表示
 renderSavedQuestions();
 filterCards();
+
 </script>
 
 

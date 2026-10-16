@@ -766,12 +766,15 @@ function filterCards() {
     main.insertBefore(message, main.children[1]);
   }
 
-  if (keyword === "" && selectedCategory === "すべて") {
-    message.textContent = "";
-  } else {
-    message.textContent = count + "件の質問が見つかりました。";
-  }
+  
+if (keyword === "" && selectedCategory === "すべて") {
+  message.textContent = "";
+} else if (count === 0) {
+  message.textContent = "🔎 質問が見つかりませんでした。別の言葉で検索してみてね。";
+} else {
+  message.textContent = "📚 " + count + "件の質問が見つかりました。";
 }
+
 
 // 検索フォーム
 searchForm.addEventListener("submit", function(event) {

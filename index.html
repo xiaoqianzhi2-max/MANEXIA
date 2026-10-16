@@ -556,7 +556,271 @@ button:disabled {
 #questionForm label {
   color: #2457c5 !important;
 }
-  </style>
+ 
+/* =================================
+   MANEXIA PREMIUM DESIGN
+================================= */
+
+:root {
+  --mx-navy: #0b1530;
+  --mx-blue: #2457c5;
+  --mx-blue-light: #eaf1ff;
+  --mx-text: #17233c;
+  --mx-muted: #64748b;
+  --mx-border: #dce5f5;
+  --mx-white: #ffffff;
+}
+
+/* ページ全体 */
+body {
+  background: #f4f7fc;
+  color: var(--mx-text);
+  font-family: Arial, "Noto Sans JP", sans-serif;
+  line-height: 1.8;
+}
+
+/* ヘッダー */
+header {
+  background: linear-gradient(120deg, #0b1530, #2457c5);
+  color: #ffffff;
+  padding: 24px;
+  box-shadow: 0 6px 24px rgba(11, 21, 48, 0.15);
+  letter-spacing: 0.4px;
+}
+
+/* メインのヒーローエリア */
+.hero {
+  background:
+    radial-gradient(ellipse at top right, #d8e5ff 0%, transparent 60%),
+    linear-gradient(135deg, #ffffff, #edf3ff);
+  padding: 64px 20px;
+}
+
+/* メイン見出し */
+h1 {
+  color: var(--mx-navy);
+  letter-spacing: -0.7px;
+  line-height: 1.4;
+}
+
+/* コンテンツの横幅 */
+main {
+  width: 100%;
+  max-width: 1000px;
+  box-sizing: border-box;
+}
+
+/* 質問カード */
+.card {
+  background: #ffffff;
+  border: 1px solid var(--mx-border);
+  border-radius: 20px;
+  padding: 26px;
+  box-shadow: 0 4px 18px rgba(20, 40, 80, 0.045);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card summary {
+  color: var(--mx-navy);
+  font-weight: 700;
+}
+
+.card details p {
+  color: #475569;
+}
+
+/* カテゴリーボタン */
+.category {
+  background: #ffffff;
+  color: var(--mx-blue) !important;
+  border: 1px solid #d4e0f6;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.category:hover {
+  background: #edf3ff;
+  border-color: var(--mx-blue);
+}
+
+.category.active,
+.category.active:hover {
+  background: var(--mx-blue) !important;
+  color: #ffffff !important;
+  border-color: var(--mx-blue) !important;
+  box-shadow: 0 4px 12px rgba(36, 87, 197, 0.22);
+}
+
+/* ボタン */
+button {
+  background: var(--mx-blue);
+  color: #ffffff;
+  border-radius: 10px;
+  font-weight: 700;
+  box-shadow: 0 3px 8px rgba(36, 87, 197, 0.12);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: #1d4ed8;
+  box-shadow: 0 5px 14px rgba(36, 87, 197, 0.2);
+}
+
+/* 回答エリア */
+.answer-area {
+  background: #f5f8ff;
+  border: 1px solid var(--mx-border);
+  border-radius: 16px;
+}
+
+.answer-area label {
+  color: var(--mx-blue) !important;
+}
+
+/* 質問投稿フォーム */
+#questionFormSection {
+  background: #ffffff;
+  border: 1px solid var(--mx-border);
+  border-radius: 20px;
+  box-shadow: 0 6px 24px rgba(20, 40, 80, 0.05);
+}
+
+#questionFormSection h2 {
+  color: var(--mx-navy) !important;
+}
+
+#questionForm label {
+  color: var(--mx-blue) !important;
+}
+
+/* 入力欄 */
+input,
+select,
+textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+  border: 1px solid #cbd7eb;
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--mx-text);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #8baef5;
+  border-color: var(--mx-blue);
+}
+
+/* フッター */
+footer {
+  background: #eaf0fb;
+  color: #475569;
+}
+
+/* スマートフォン */
+@media (max-width: 600px) {
+  .hero {
+    padding: 42px 16px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  .card {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  #questionFormSection {
+    padding: 18px;
+  }
+}
+
+/* 動きを控えたい人への配慮 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* MANEXIA トップページの仕上げ */
+
+/* キャッチコピー */
+.hero h1 {
+  color: #0b1530;
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+}
+
+/* 説明文 */
+.hero p {
+  color: #52627a;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+/* 紹介カード */
+.hero-feature {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #dce5f5;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 6px 22px rgba(20, 40, 80, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* カードにマウスを乗せたとき */
+@media (hover: hover) {
+  .hero-feature:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(36, 87, 197, 0.12);
+  }
+}
+
+/* 検索入力欄 */
+#searchInput {
+  background: #ffffff;
+  border: 1px solid #cbd7eb;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 16px;
+}
+
+/* 検索ボタン */
+#searchForm button {
+  border-radius: 12px;
+  padding: 13px 22px;
+  font-weight: 700;
+}
+
+/* スマートフォン */
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 30px;
+    letter-spacing: -0.5px;
+  }
+
+  .hero-feature {
+    padding: 18px;
+    border-radius: 15px;
+  }
+
+  #searchInput {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+ </style>
 </head>
 
 <body>

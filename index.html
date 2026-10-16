@@ -142,6 +142,33 @@
     </form>
   </section>
 
+<section class="card" id="questionFormSection">
+  <h2>質問を投稿する</h2>
+  <p>お金について知りたいことを入力してね。</p>
+
+  <form id="questionForm">
+    <label for="questionCategory">カテゴリー</label>
+    <select id="questionCategory" required>
+      <option value="貯金">貯金</option>
+      <option value="税金">税金</option>
+      <option value="投資">投資</option>
+      <option value="ビジネス">ビジネス</option>
+    </select>
+
+    <label for="questionTitle">質問</label>
+    <input
+      id="questionTitle"
+      type="text"
+      placeholder="例：お金を貯めるコツは？"
+      maxlength="100"
+      required
+    >
+
+    <button type="submit">質問を送信</button>
+    <p id="questionFormMessage" aria-live="polite"></p>
+  </form>
+</section>
+
   <main>
     <h2>📚 カテゴリーから探す</h2>
 
@@ -232,7 +259,28 @@ const searchInput = document.getElementById("searchInput");
 const cards = document.querySelectorAll(".card");
 const categoryButtons = document.querySelectorAll(".category");
 const searchForm = document.getElementById("searchForm");
+const savedQuestions = JSON.parse(
+  localStorage.getItem("manexia-questions") || "[]"
+);
 
+savedQuestions.forEach(function(question) {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.dataset.category = question.category;
+
+  const details = document.createElement("details");
+  const summary = document.createElement("summary");
+  summary.textContent = question.title;
+
+  const answer = document.createElement("p");
+  answer.textContent = "この質問の回答は、これから追加する予定だよ！";
+
+  details.appendChild(summary);
+  details.appendChild(answer);
+  card.appendChild(details);
+
+  document.querySelector("main").appendChild(card);
+});
 let selectedCategory = "すべて";
 
 function filterCards() {
@@ -325,7 +373,68 @@ helpfulButtons.forEach(function(button, index) {
     button.firstChild.textContent = "👍 投票ありがとう！ ";
   });
 });
+const questionForm = document.getElementById("questionForm");
+const questionTitle = document.getElementById("questionTitle");
+const questionCategory = document.getElementById("questionCategory");
+const questionFormMessage = document.getElementById("questionFormMessage");
 
+questionForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const title = questionTitle.value.trim();
+  const category = questionCategory.value;
+
+  if (title === "") {
+    questionFormMessage.textContent = "質問を入力してね。";
+    return;
+  }
+
+if (title.length > 100) {
+  questionFormMessage.textContent =
+    "質問は100文字以内で入力してね。";
+  return;
+}
+
+  const card = document.createElement("div");
+  card.className = "card";
+  card.dataset.category = category;
+
+  const details = document.createElement("details");
+  const summary = document.createElement("summary");
+
+  summary.textContent = title;
+
+  const answer = document.createElement("p");
+  answer.textContent = "この質問の回答は、これから追加する予定だよ！";
+
+  details.appendChild(summary);
+  details.appendChild(answer);
+  card.appendChild(details);
+
+ 
+const main = document.querySelector("main");
+main.appendChild(card);
+
+// 投稿した質問を保存する
+const savedQuestions = JSON.parse(
+  localStorage.getItem("manexia-questions") || "[]"
+);
+
+savedQuestions.push({
+  title: title,
+  category: category
+});
+
+localStorage.setItem(
+  "manexia-questions",
+  JSON.stringify(savedQuestions)
+);
+
+  questionFormMessage.textContent = "質問を追加したよ！";
+  questionForm.reset();
+
+  filterCards();
+});
 </script>
 
 </body>

@@ -819,12 +819,32 @@ footer {
     min-width: 0;
   }
 }
+.site-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+}
 
+.brand {
+  display: inline-flex;
+  align-items: center;
+}
+
+.brand img {
+  display: block;
+  width: 220px;
+  max-width: 100%;
+  height: auto;
+}
  </style>
 </head>
 
 <body>
-  <header>✦ MANEXIA</header>
+ <header class="site-header">
+  <a href="./" class="brand">
+    <img src="manexia-logo.png" alt="MANEXIA ロゴ">
+  </a>
+</header>
 
   <section class="hero">
     <h1>お金の疑問、ここで解決。</h1>

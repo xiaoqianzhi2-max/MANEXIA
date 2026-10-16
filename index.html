@@ -254,16 +254,28 @@
   </footer>
 
   
+
 <script>
 const searchInput = document.getElementById("searchInput");
-const cards = document.querySelectorAll(".card");
-const categoryButtons = document.querySelectorAll(".category");
 const searchForm = document.getElementById("searchForm");
-const savedQuestions = JSON.parse(
-  localStorage.getItem("manexia-questions") || "[]"
-);
+const categoryButtons = document.querySelectorAll(".category");
 
-savedQuestions.forEach(function(question) {
+const questionForm = document.getElementById("questionForm");
+const questionTitle = document.getElementById("questionTitle");
+const questionCategory = document.getElementById("questionCategory");
+const questionFormMessage = document.getElementById("questionFormMessage");
+
+let selectedCategory = "すべて";
+
+// 保存した回答を読み込む
+function getSavedAnswers() {
+  return JSON.parse(
+    localStorage.getItem("manexia-answers") || "{}"
+  );
+}
+
+// 質問カードを作る
+function createQuestionCard(question) {
   const card = document.createElement("div");
   card.className = "card";
   card.dataset.category = question.category;
@@ -273,50 +285,89 @@ savedQuestions.forEach(function(question) {
   summary.textContent = question.title;
 
   const answerArea = document.createElement("div");
+  const answerLabel = document.createElement("label");
+  answerLabel.textContent = "回答を入力してね";
 
-const answerLabel = document.createElement("label");
-answerLabel.textContent = "回答を入力してね";
+  const answerInput = document.createElement("textarea");
+  answerInput.placeholder = "この質問への回答...";
+  answerInput.maxLength = 1000;
+  answerInput.rows = 3;
 
-const answerInput = document.createElement("textarea");
-answerInput.placeholder = "この質問への回答...";
-answerInput.maxLength = 1000;
+  const answerButton = document.createElement("button");
+  answerButton.type = "button";
+  answerButton.textContent = "回答を投稿";
 
-const answerButton = document.createElement("button");
-answerButton.textContent = "回答を投稿";
-answerButton.type = "button";
+  const answerMessage = document.createElement("p");
 
-const answerMessage = document.createElement("p");
+  // 保存済みの回答を表示
+  const savedAnswers = getSavedAnswers();
+  const previousAnswers = savedAnswers[question.title] || [];
 
-answerButton.addEventListener("click", function() {
-  const answerText = answerInput.value.trim();
+  previousAnswers.forEach(function(text) {
+    const postedAnswer = document.createElement("p");
+    postedAnswer.textContent = "回答：" + text;
+    answerArea.appendChild(postedAnswer);
+  });
 
-  if (answerText === "") {
-    answerMessage.textContent = "回答を入力してね。";
-    return;
-  }
+  // 回答を投稿して保存
+  answerButton.addEventListener("click", function() {
+    const answerText = answerInput.value.trim();
 
-  const postedAnswer = document.createElement("p");
-  postedAnswer.textContent = answerText;
+    if (answerText === "") {
+      answerMessage.textContent = "回答を入力してね。";
+      return;
+    }
 
-  answerArea.appendChild(postedAnswer);
-  answerInput.value = "";
-  answerMessage.textContent = "回答を投稿したよ！";
-});
+    const allAnswers = getSavedAnswers();
 
-answerArea.appendChild(answerLabel);
-answerArea.appendChild(answerInput);
-answerArea.appendChild(answerButton);
-answerArea.appendChild(answerMessage);
+    if (!allAnswers[question.title]) {
+      allAnswers[question.title] = [];
+    }
+
+    allAnswers[question.title].push(answerText);
+
+    localStorage.setItem(
+      "manexia-answers",
+      JSON.stringify(allAnswers)
+    );
+
+    const postedAnswer = document.createElement("p");
+    postedAnswer.textContent = "回答：" + answerText;
+
+    answerArea.insertBefore(postedAnswer, answerLabel);
+    answerInput.value = "";
+    answerMessage.textContent = "回答を投稿したよ！";
+  });
+
+  answerArea.appendChild(answerLabel);
+  answerArea.appendChild(answerInput);
+  answerArea.appendChild(answerButton);
+  answerArea.appendChild(answerMessage);
+
   details.appendChild(summary);
   details.appendChild(answerArea);
   card.appendChild(details);
 
-  document.querySelector("main").appendChild(card);
-});
-let selectedCategory = "すべて";
+  return card;
+}
 
+// 保存済みの質問を表示
+function renderSavedQuestions() {
+  const savedQuestions = JSON.parse(
+    localStorage.getItem("manexia-questions") || "[]"
+  );
+
+  const main = document.querySelector("main");
+
+  savedQuestions.forEach(function(question) {
+    main.appendChild(createQuestionCard(question));
+  });
+}
+
+// 検索とカテゴリーで絞り込む
 function filterCards() {
   const keyword = searchInput.value.trim().toLowerCase();
+  const cards = document.querySelectorAll("main .card");
   let count = 0;
 
   cards.forEach(function(card) {
@@ -354,6 +405,7 @@ function filterCards() {
   }
 }
 
+// 検索フォーム
 searchForm.addEventListener("submit", function(event) {
   event.preventDefault();
   filterCards();
@@ -361,13 +413,13 @@ searchForm.addEventListener("submit", function(event) {
 
 searchInput.addEventListener("input", filterCards);
 
+// カテゴリーボタン
 categoryButtons.forEach(function(button) {
   button.addEventListener("click", function() {
     selectedCategory = button.dataset.category;
 
     categoryButtons.forEach(function(item) {
       const isSelected = item === button;
-
       item.style.background = isSelected ? "#176b4d" : "white";
       item.style.color = isSelected ? "white" : "#176b4d";
     });
@@ -376,40 +428,7 @@ categoryButtons.forEach(function(button) {
   });
 });
 
-
-const helpfulButtons = document.querySelectorAll(".helpful-button");
-
-helpfulButtons.forEach(function(button, index) {
-  const countElement = button.querySelector(".helpful-count");
-  const storageKey = "manexia-helpful-" + index;
-
-  // 保存されている投票数を読み込む
-  const savedCount = localStorage.getItem(storageKey);
-
-  if (savedCount !== null) {
-    countElement.textContent = savedCount;
-    button.disabled = true;
-    button.firstChild.textContent = "👍 投票ありがとう！ ";
-  }
-
-  button.addEventListener("click", function() {
-    let count = Number(countElement.textContent);
-    count++;
-
-    countElement.textContent = count;
-
-    // 投票数をブラウザに保存する
-    localStorage.setItem(storageKey, count);
-
-    button.disabled = true;
-    button.firstChild.textContent = "👍 投票ありがとう！ ";
-  });
-});
-const questionForm = document.getElementById("questionForm");
-const questionTitle = document.getElementById("questionTitle");
-const questionCategory = document.getElementById("questionCategory");
-const questionFormMessage = document.getElementById("questionFormMessage");
-
+// 質問を投稿して保存
 questionForm.addEventListener("submit", function(event) {
   event.preventDefault();
 
@@ -421,111 +440,67 @@ questionForm.addEventListener("submit", function(event) {
     return;
   }
 
-if (title.length > 100) {
-  questionFormMessage.textContent =
-    "質問は100文字以内で入力してね。";
-  return;
-}
-
-  const card = document.createElement("div");
-  card.className = "card";
-  card.dataset.category = category;
-
-  const details = document.createElement("details");
-  const summary = document.createElement("summary");
-
-  summary.textContent = title;
-
-  const answerArea = document.createElement("div");
-
-const answerLabel = document.createElement("label");
-answerLabel.textContent = "回答を入力してね";
-
-const answerInput = document.createElement("textarea");
-answerInput.placeholder = "この質問への回答...";
-answerInput.maxLength = 1000;
-
-const answerButton = document.createElement("button");
-answerButton.textContent = "回答を投稿";
-answerButton.type = "button";
-
-const answerMessage = document.createElement("p");
-const savedAnswers = JSON.parse(
-  localStorage.getItem("manexia-answers") || "{}"
-);
-
-const previousAnswers = savedAnswers[question.title] || [];
-
-previousAnswers.forEach(function(text) {
-  const postedAnswer = document.createElement("p");
-  postedAnswer.textContent = text;
-  answerArea.appendChild(postedAnswer);
-});
-answerButton.addEventListener("click", function() {
-  const answerText = answerInput.value.trim();
-
-  if (answerText === "") {
-    answerMessage.textContent = "回答を入力してね。";
+  if (title.length > 100) {
+    questionFormMessage.textContent =
+      "質問は100文字以内で入力してね。";
     return;
   }
 
-  const postedAnswer = document.createElement("p");
-  postedAnswer.textContent = answerText;
+  const savedQuestions = JSON.parse(
+    localStorage.getItem("manexia-questions") || "[]"
+  );
 
-  answerArea.appendChild(postedAnswer);
+  const question = {
+    title: title,
+    category: category
+  };
 
-const savedAnswers = JSON.parse(
-  localStorage.getItem("manexia-answers") || "{}"
-);
+  savedQuestions.push(question);
 
-if (!savedAnswers[title]) {
-  savedAnswers[title] = [];
-}
+  localStorage.setItem(
+    "manexia-questions",
+    JSON.stringify(savedQuestions)
+  );
 
-savedAnswers[title].push(answerText);
-
-localStorage.setItem(
-  "manexia-answers",
-  JSON.stringify(savedAnswers)
-);
-
-answerInput.value = "";
-answerMessage.textContent = "回答を投稿したよ！";
-});
-
-answerArea.appendChild(answerLabel);
-answerArea.appendChild(answerInput);
-answerArea.appendChild(answerButton);
-answerArea.appendChild(answerMessage);
-  details.appendChild(summary);
-  details.appendChild(answerArea);
-  card.appendChild(details);
-
- 
-const main = document.querySelector("main");
-main.appendChild(card);
-
-// 投稿した質問を保存する
-const savedQuestions = JSON.parse(
-  localStorage.getItem("manexia-questions") || "[]"
-);
-
-savedQuestions.push({
-  title: title,
-  category: category
-});
-
-localStorage.setItem(
-  "manexia-questions",
-  JSON.stringify(savedQuestions)
-);
+  const main = document.querySelector("main");
+  main.appendChild(createQuestionCard(question));
 
   questionFormMessage.textContent = "質問を追加したよ！";
   questionForm.reset();
 
   filterCards();
 });
+
+// 「役に立った」ボタン
+const helpfulButtons = document.querySelectorAll(".helpful-button");
+
+helpfulButtons.forEach(function(button, index) {
+  const countElement = button.querySelector(".helpful-count");
+  const storageKey = "manexia-helpful-" + index;
+  const savedCount = localStorage.getItem(storageKey);
+
+  if (savedCount !== null) {
+    countElement.textContent = savedCount;
+    button.disabled = true;
+    button.firstChild.textContent = "👍 投票ありがとう！ ";
+  }
+
+  button.addEventListener("click", function() {
+    const count = Number(countElement.textContent) + 1;
+
+    countElement.textContent = count;
+    localStorage.setItem(storageKey, count);
+
+    button.disabled = true;
+    button.firstChild.textContent = "👍 投票ありがとう！ ";
+  });
+});
+
+// ページを開いたときに保存済みの質問を表示
+renderSavedQuestions();
+filterCards();
 </script>
+
 
 </body>
 </html>

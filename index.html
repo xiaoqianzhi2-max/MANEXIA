@@ -327,6 +327,106 @@
   }
 }
 
+/* ボタンのデザインを統一 */
+button {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.2s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+button:hover {
+  box-shadow: 0 3px 9px rgba(23, 107, 77, 0.16);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:focus-visible {
+  outline: 3px solid #8bc7a3;
+  outline-offset: 3px;
+}
+
+.category {
+  transition: background 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.category:hover {
+  border-color: #176b4d;
+}
+
+button:disabled {
+  cursor: default;
+  opacity: 0.75;
+  box-shadow: none;
+}
+
+/* 選択中のカテゴリー */
+.category.active {
+  background: #176b4d;
+  color: #ffffff;
+  border-color: #176b4d;
+  box-shadow: 0 2px 8px rgba(23, 107, 77, 0.15);
+}
+
+/* スマートフォン向けの調整 */
+@media (max-width: 600px) {
+  header {
+    padding: 16px;
+    font-size: 22px;
+  }
+
+  .hero {
+    padding: 36px 16px;
+  }
+
+  .hero p {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  main {
+    margin: 22px auto;
+    padding: 0 14px;
+  }
+
+  .card {
+    padding: 17px;
+    border-radius: 14px;
+  }
+
+  .card summary {
+    font-size: 17px;
+  }
+
+  .categories {
+    gap: 8px;
+  }
+
+  .category {
+    padding: 10px 14px;
+  }
+
+  .answer-area {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .answer-area button,
+  #questionForm button {
+    min-height: 44px;
+  }
+
+  footer {
+    padding: 22px 14px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+}
+
   </style>
 </head>
 
@@ -376,7 +476,7 @@
 
     
 <div class="categories">
-  <button class="category" data-category="すべて" type="button">すべて</button>
+  <button class="category active" data-category="すべて" type="button">すべて</button>
   <button class="category" data-category="貯金" type="button">貯金</button>
   <button class="category" data-category="税金" type="button">税金</button>
   <button class="category" data-category="投資" type="button">投資</button>
@@ -620,7 +720,11 @@ searchInput.addEventListener("input", filterCards);
 categoryButtons.forEach(function(button) {
   button.addEventListener("click", function() {
     selectedCategory = button.dataset.category;
+categoryButtons.forEach(function(item) {
+  item.classList.remove("active");
+});
 
+button.classList.add("active");
     categoryButtons.forEach(function(item) {
       const isSelected = item === button;
       item.style.background = isSelected ? "#176b4d" : "white";

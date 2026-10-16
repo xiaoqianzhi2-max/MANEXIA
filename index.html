@@ -272,11 +272,43 @@ savedQuestions.forEach(function(question) {
   const summary = document.createElement("summary");
   summary.textContent = question.title;
 
-  const answer = document.createElement("p");
-  answer.textContent = "この質問の回答は、これから追加する予定だよ！";
+  const answerArea = document.createElement("div");
 
+const answerLabel = document.createElement("label");
+answerLabel.textContent = "回答を入力してね";
+
+const answerInput = document.createElement("textarea");
+answerInput.placeholder = "この質問への回答...";
+answerInput.maxLength = 1000;
+
+const answerButton = document.createElement("button");
+answerButton.textContent = "回答を投稿";
+answerButton.type = "button";
+
+const answerMessage = document.createElement("p");
+
+answerButton.addEventListener("click", function() {
+  const answerText = answerInput.value.trim();
+
+  if (answerText === "") {
+    answerMessage.textContent = "回答を入力してね。";
+    return;
+  }
+
+  const postedAnswer = document.createElement("p");
+  postedAnswer.textContent = answerText;
+
+  answerArea.appendChild(postedAnswer);
+  answerInput.value = "";
+  answerMessage.textContent = "回答を投稿したよ！";
+});
+
+answerArea.appendChild(answerLabel);
+answerArea.appendChild(answerInput);
+answerArea.appendChild(answerButton);
+answerArea.appendChild(answerMessage);
   details.appendChild(summary);
-  details.appendChild(answer);
+  details.appendChild(answerArea);
   card.appendChild(details);
 
   document.querySelector("main").appendChild(card);
@@ -404,11 +436,69 @@ if (title.length > 100) {
 
   summary.textContent = title;
 
-  const answer = document.createElement("p");
-  answer.textContent = "この質問の回答は、これから追加する予定だよ！";
+  const answerArea = document.createElement("div");
 
+const answerLabel = document.createElement("label");
+answerLabel.textContent = "回答を入力してね";
+
+const answerInput = document.createElement("textarea");
+answerInput.placeholder = "この質問への回答...";
+answerInput.maxLength = 1000;
+
+const answerButton = document.createElement("button");
+answerButton.textContent = "回答を投稿";
+answerButton.type = "button";
+
+const answerMessage = document.createElement("p");
+const savedAnswers = JSON.parse(
+  localStorage.getItem("manexia-answers") || "{}"
+);
+
+const previousAnswers = savedAnswers[question.title] || [];
+
+previousAnswers.forEach(function(text) {
+  const postedAnswer = document.createElement("p");
+  postedAnswer.textContent = text;
+  answerArea.appendChild(postedAnswer);
+});
+answerButton.addEventListener("click", function() {
+  const answerText = answerInput.value.trim();
+
+  if (answerText === "") {
+    answerMessage.textContent = "回答を入力してね。";
+    return;
+  }
+
+  const postedAnswer = document.createElement("p");
+  postedAnswer.textContent = answerText;
+
+  answerArea.appendChild(postedAnswer);
+
+const savedAnswers = JSON.parse(
+  localStorage.getItem("manexia-answers") || "{}"
+);
+
+if (!savedAnswers[title]) {
+  savedAnswers[title] = [];
+}
+
+savedAnswers[title].push(answerText);
+
+localStorage.setItem(
+  "manexia-answers",
+  JSON.stringify(savedAnswers)
+);
+
+answerInput.value = "";
+answerMessage.textContent = "回答を投稿したよ！";
+});
+
+answerArea.appendChild(answerLabel);
+answerArea.appendChild(answerInput);
+answerArea.appendChild(answerButton);
+answerArea.appendChild(answerMessage);
   details.appendChild(summary);
-  details.appendChild(answer);
+  details.appendChild(answerArea);
   card.appendChild(details);
 
  

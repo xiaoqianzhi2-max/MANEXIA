@@ -782,7 +782,9 @@ searchForm.addEventListener("submit", function(event) {
   filterCards();
 });
 
-searchInput.addEventListener("input", filterCards);
+searchInput.addEventListener("input", function() {
+  filterCards();
+});
 
 // カテゴリーボタン
 categoryButtons.forEach(function(button) {

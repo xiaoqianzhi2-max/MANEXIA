@@ -427,6 +427,51 @@ button:disabled {
   }
 }
 
+/* トップ画面の案内カード */
+.hero-features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 850px;
+  margin: 30px auto 0;
+  text-align: left;
+}
+
+.hero-feature {
+  padding: 18px 14px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #d5e8da;
+  border-radius: 14px;
+}
+
+.hero-feature span {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 25px;
+}
+
+.hero-feature strong {
+  color: #176b4d;
+  font-size: 15px;
+}
+
+.hero-feature p {
+  margin-bottom: 0;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+@media (max-width: 600px) {
+  .hero-features {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .hero-feature {
+    padding: 16px;
+  }
+}
+
   </style>
 </head>
 
@@ -436,6 +481,26 @@ button:disabled {
   <section class="hero">
     <h1>お金の疑問、ここで解決。</h1>
     <p>むずかしいお金の話を、やさしい言葉で。</p>
+
+<div class="hero-features">
+  <div class="hero-feature">
+    <span>📚</span>
+    <strong>お金の基礎を学ぶ</strong>
+    <p>貯金・税金・投資をやさしく解説</p>
+  </div>
+
+  <div class="hero-feature">
+    <span>💬</span>
+    <strong>疑問を質問する</strong>
+    <p>気になるお金の疑問を投稿</p>
+  </div>
+
+  <div class="hero-feature">
+    <span>💡</span>
+    <strong>知識を共有する</strong>
+    <p>質問への回答を投稿</p>
+  </div>
+</div>
 
     <form class="search" id="searchForm">
       <input id="searchInput" type="search"
